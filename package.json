@@ -17,7 +17,13 @@
     "gulp-minify": "^3.1.0",
     "gulp-rename": "^2.0.0",
     "gulp-uglify": "^3.0.2",
-    "gulp-uglifyjs": "^0.6.2"
+    "gulp-uglifyjs": "^0.6.2",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^3.1.0",
+    "puppeteer": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "karma-cli": "^2.0.0"
+  }
 }
