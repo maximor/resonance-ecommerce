@@ -1,0 +1,231 @@
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(app/images/bg/1.jpg) no-repeat scroll center center / cover ;">
+    <div class="ht__bradcaump__wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Product Details</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="index.html">Home</a>
+                            <span class="brd-separetor">/</span>
+                            <span class="breadcrumb-item active">Product Details</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+
+<!-- Start Product Details -->
+<section class="htc__product__details pt--120 pb--100 bg__white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 col-sm-12">
+                <div class="product__details__container">
+                    <!-- Start Small images -->
+                    <ul class="nav product__small__images" role="tablist">
+                        <li role="presentation" class="pot-small-img active" ng-repeat="picture in furniture.fields.Picture | limitTo : 4">
+                            <a ui-sref="#" href="#img-tab-{{$index+1}}" role="tab" data-toggle="tab">
+                                <img src="{{picture.url}}" alt="small-image" style="width: 120px; height: 140px;">
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- End Small images -->
+                    <div class="product__big__images">
+                        <div class="portfolio-full-image tab-content">
+                            <div role="tabpanel" class="tab-pane {{$index == 0 ? 'active' : ''}}" ng-repeat="picture in furniture.fields.Picture" id="img-tab-{{$index+1}}">
+                                <img src="{{picture.url}}" alt="full-image" style="width: 440px; height: 590px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-sm-12 smt-30 xmt-30">
+                <div class="htc__product__details__inner">
+                    <div class="pro__detl__title">
+                        <h2>{{furniture.fields.Name}}</h2>
+                    </div>
+                    <div class="pro__details">
+                        <p>{{furniture.fields.Notes}}</p>
+                    </div>
+                    <div class="pro__dtl__color">
+                        <h2 class="title__5">{{furniture.fields['Units In Store'] > 0 ? 'In Stock!' : 'Out of Stock!'}}</h2>
+                    </div>
+                    <ul class="pro__dtl__prize">
+<!--                        <li class="old__prize">$15.21</li>-->
+                        <li>{{furniture.fields['Unit Cost'] | currency : 'USD$' : 2}}</li>
+                    </ul>
+                    <div class="pro__dtl__size">
+                        <h2 class="title__5">Size (WxLxH)</h2>
+                        <ul class="pro__choose__size">
+                            <li>{{furniture.fields['Size (WxLxH)']}}</li>
+                        </ul>
+                    </div>
+                    <div class="product-action-wrap">
+                        <div class="prodict-statas"><span>Quantity :</span></div>
+                        <div class="product-quantity">
+                            <form id='myform' method='POST' action='#'>
+                                <div class="product-quantity">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" ng-model="furniture.quantity" type="text" ame="quantity">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <ul class="pro__dtl__btn">
+                        <li class="buy__now__btn"><a href="#"><span class="ti-shopping-cart"></span> Add to Cart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Product Details -->
+<!-- Start Product tab -->
+<section class="htc__product__details__tab bg__white pb--120">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <ul class="nav product__deatils__tab mb--60" role="tablist">
+                    <li role="presentation" class="active">
+                        <a class="active" ui-sref="#" href="#description" role="tab" data-toggle="tab">Description</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#sheet" ui-sref="#" role="tab" data-toggle="tab">Data sheet</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product__details__tab__content">
+                    <!-- Start Single Content -->
+                    <div role="tabpanel" id="description" class="product__tab__content active">
+                        <div class="product__description__wrap">
+                            <div class="product__desc">
+                                <h2 class="title__6">Details</h2>
+                                <p>{{furniture.fields.Description}}</p>
+                            </div>
+                            <div class="pro__feature">
+                                <h2 class="title__6">Settings</h2>
+                                <ul class="feature__list">
+                                    <li ng-repeat="setting in furniture.fields.Settings">{{setting}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Content -->
+                    <!-- Start Single Content -->
+                    <div role="tabpanel" id="sheet" class="product__tab__content">
+                        <div class="pro__feature">
+                            <h2 class="title__6">Materials and Finishes</h2>
+                            <ul class="feature__list">
+                                <li ng-repeat="material in furniture.fields['Materials and Finishes']">{{material}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Single Content -->
+                    <!-- Start Single Content -->
+                    <div role="tabpanel" id="reviews" class="product__tab__content">
+                        <div class="review__address__inner">
+                            <!-- Start Single Review -->
+                            <div class="pro__review">
+                                <div class="review__thumb">
+                                    <img src="images/review/1.jpg" alt="review images">
+                                </div>
+                                <div class="review__details">
+                                    <div class="review__info">
+                                        <h4><a href="#">Gerald Barnes</a></h4>
+                                        <ul class="rating">
+                                            <li><i class="zmdi zmdi-star"></i></li>
+                                            <li><i class="zmdi zmdi-star"></i></li>
+                                            <li><i class="zmdi zmdi-star"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                        </ul>
+                                        <div class="rating__send">
+                                            <a href="#"><i class="zmdi zmdi-mail-reply"></i></a>
+                                            <a href="#"><i class="zmdi zmdi-close"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="review__date">
+                                        <span>27 Jun, 2016 at 2:30pm</span>
+                                    </div>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent et messages in con sectetur posuere dolor non.</p>
+                                </div>
+                            </div>
+                            <!-- End Single Review -->
+                        </div>
+                        <!-- Start RAting Area -->
+                        <div class="rating__wrap">
+                            <h2 class="rating-title">Write  A review</h2>
+                            <h4 class="rating-title-2">Your Rating</h4>
+                            <div class="rating__list">
+                                <!-- Start Single List -->
+                                <ul class="rating">
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                </ul>
+                                <!-- End Single List -->
+                                <!-- Start Single List -->
+                                <ul class="rating">
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                </ul>
+                                <!-- End Single List -->
+                                <!-- Start Single List -->
+                                <ul class="rating">
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                </ul>
+                                <!-- End Single List -->
+                                <!-- Start Single List -->
+                                <ul class="rating">
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                </ul>
+                                <!-- End Single List -->
+                                <!-- Start Single List -->
+                                <ul class="rating">
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                    <li><i class="zmdi zmdi-star-half"></i></li>
+                                </ul>
+                                <!-- End Single List -->
+                            </div>
+                        </div>
+                        <!-- End RAting Area -->
+                        <div class="review__box">
+                            <form id="review-form">
+                                <div class="single-review-form">
+                                    <div class="review-box name">
+                                        <input type="text" placeholder="Type your name">
+                                        <input type="email" placeholder="Type your email">
+                                    </div>
+                                </div>
+                                <div class="single-review-form">
+                                    <div class="review-box message">
+                                        <textarea placeholder="Write your review"></textarea>
+                                    </div>
+                                </div>
+                                <div class="review-btn">
+                                    <a class="fv-btn" href="#">submit review</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End Single Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Product tab -->

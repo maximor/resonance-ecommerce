@@ -1,0 +1,96 @@
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(app/images/bg/1.jpg) no-repeat scroll center center / cover ;">
+    <div class="ht__bradcaump__wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Shop</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="index.html">Collection</a>
+                            <span class="brd-separetor">/</span>
+                            <span class="breadcrumb-item active">Shop</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+
+<!-- Start Our ShopSide Area -->
+<section class="htc__shop__sidebar bg__white ptb--120">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                <div class="htc__shop__left__sidebar">
+                    <!-- Start Product Cat -->
+                    <div class="htc__shop__cat">
+                        <h4 class="section-title-4">PRODUCT CATEGORIES</h4>
+                        <ul class="sidebar__list">
+                            <li ng-repeat="category in categories | filter : {name : '!!'}"><a href="#!/shop/category/{{category.name}}">{{category.name}} <span>{{category.amount}}</span></a></li>
+                        </ul>
+                    </div>
+                    <!-- End Product Cat -->
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="producy__view__container">
+                            <!-- Start Short Form -->
+                            <div class="product__list__option">
+                                <div class="order-single-btn">
+                                    <select class="select-color selectpicker" ng-model="sortBy" ng-change="dinamicSearch()">
+                                        <option value="Default" selected="selected">Default</option>
+                                        <option value="ASCN">Name (A - Z)</option>
+                                        <option value="DESCN">Name (Z - A)</option>
+                                        <option value="ASCP">Price (Low &gt; High)</option>
+                                        <option value="DESCP">Price (High &gt; Low)</option>
+                                        <option value="ASCT">Model (A - Z)</option>
+                                        <option value="DESCT">Model (Z - A)</option>
+                                    </select>
+                                </div>
+                                <div class="shp__pro__show">
+                                    <span>Showing 1 - 4 of 25 results</span>
+                                </div>
+                            </div>
+                            <!-- End Short Form -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="shop__grid__view__wrap">
+                        <!-- Start Single View -->
+                        <div role="tabpanel" id="list-view" class="single-grid-view">
+                            <!-- Start List Content-->
+                            <div class="row" ng-repeat="furniture in furnitures | filter : {fields: {Name : '!!'}}" style="margin-left: 20px;margin-top: 20px;">
+                                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
+                                    <div class="list__thumb">
+                                        <a href="#!/product/{{furniture.id}}">
+                                            <img ng-repeat="picture in furniture.fields.Picture | limitTo : 1" src="{{picture.url}}" alt="list images">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12">
+                                    <div class="list__details__inner">
+                                        <h2><a href="#!/product/{{furniture.id}}">{{furniture.fields.Name}}</a></h2>
+                                        <p>{{furniture.fields.Description | limitTo : 256}}...</p>
+                                        <span class="product__price">{{furniture.fields['Unit Cost'] | currency : 'USD$' : 2}}</span>
+                                        <div class="shop__btn">
+                                            <a class="htc__btn" ng-click="addToCart(furniture)" href=""><span class="ti-shopping-cart"></span>Add to Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End List Content-->
+                        </div>
+                        <!-- End Single View -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Our ShopSide Area -->

@@ -1,0 +1,45 @@
+<!-- Start Our Product Area -->
+<section class="htc__product__area ptb--130 bg__white">
+    <div class="container">
+
+            <!-- Start Product MEnu -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product__menu">
+                        <button data-filter="*" class="is-checked">Take a look of what we have in stock</button>
+                    </div>
+                </div>
+            </div>
+            <!-- End Product MEnu -->
+            <div class="row">
+                <!-- Start Single Product -->
+                <div class="col-md-3 col-lg-3 col-md-4 cat--1 col-sm-12" ng-repeat="furniture in furnitures | filter : {fields: {Name : '!!'}}">
+                    <div class="product foo">
+                        <div class="product__inner" style="color: #9e9e9e">
+                            <div class="pro__thumb">
+                                <a href="#!/product/{{furniture.id}}">
+                                    <img ng-repeat="picture in furniture.fields.Picture | limitTo: 1" src="{{picture.url}}" alt="{{furniture.fields.Name}}">
+                                </a>
+                            </div>
+                            <div class="product__hover__info">
+                                <ul class="product__action">
+                                    <li><a data-toggle="modal" data-target="#productModal" title="Quick View" class="quick-view modal-view detail-link" href="#"><span class="ti-plus"></span></a></li>
+                                    <li><a ng-click="addToCart(furniture)" title="Add TO Cart" href=""><span class="ti-shopping-cart"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product__details">
+                            <h2><a href="#!/product/{{furniture.id}}">{{furniture.fields.Name}}</a></h2>
+                            <ul class="product__price">
+<!--                                <li class="old__price">$16.00</li>-->
+                                <li class="new__price">{{furniture.fields['Unit Cost'] | currency : "USD$" : 2}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Single Product -->
+            </div>
+    </div>
+</section>
+<!-- End Our Product Area -->
+
