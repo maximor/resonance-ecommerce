@@ -27,13 +27,14 @@ app.run(function ($http, $rootScope, $http, externals) {
 });
 
 //Main controller for the application
-app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location) {
+app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location, $window) {
     $rootScope.appName = "Resonance Ecommerce";
     $rootScope.cart = [];
     $rootScope.path = $location.path();
 
-    console.log($rootScope.path);
-
+    if($window.localStorage.getItem('cart') != null){
+        $rootScope.cart = JSON.parse($window.localStorage.getItem('cart'));
+    }
 
     $rootScope.addToCart = function (furniture, quantity = 1) {
         if(typeof furniture === 'object'){
@@ -46,7 +47,14 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
             }
 
             if(!status){
-                $rootScope.cart.push(furniture);
+                if($window.localStorage.getItem('cart') != null){
+                    $rootScope.cart = JSON.parse($window.localStorage.getItem('cart'));
+                    $rootScope.cart.push(furniture);
+                    $window.localStorage.setItem('cart', JSON.stringify($rootScope.cart));
+                }else{
+                    $rootScope.cart.push(furniture);
+                    $window.localStorage.setItem('cart', JSON.stringify($rootScope.cart));
+                }
                 Notification.success({ message: '<i class="fa fa-bell-o"></i> '+furniture.fields.Name+' has been added to your cart' });
             }
         }else{
@@ -60,6 +68,10 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
             while ($rootScope.cart.length > i ){
                 if($rootScope.cart[i].id == objectId){
                     $rootScope.cart.splice(i, 1);
+                    $window.localStorage.setItem('cart', JSON.stringify($rootScope.cart));
+                    if($rootScope.cart.length == 0){
+                        $window.localStorage.setItem('cart', '[]');
+                    }
                     Notification.warning({message: '<i class="fa fa-bell-o"></i> '+objectId+' has been removed of your cart'})
                     break;
                 }
@@ -80,9 +92,6 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
         return total;
     }
 
-    // $http.get("https://api.airtable.com/v0/appzeUDpZOqRjLPaJ/Furniture?maxRecords=3&view=Main%20View").then(function(response) {
-    //     console.log(response);
-    // });
 });
 
 //uris for for the resonance application
