@@ -42,7 +42,7 @@
                                 <td class="product-thumbnail"><a href="#!/product/{{cartA.id}}"><img  ng-repeat="picture in cartA.fields.Picture | limitTo: 1"  src="{{picture.url}}" alt="{{cartA.fields.Name}}" /></a></td>
                                 <td class="product-name"><a href="#">{{cartA.fields.Name}}</a></td>
                                 <td class="product-price"><span class="amount">{{cartA.fields['Unit Cost'] | currency : '$USD' : 2}}</span></td>
-                                <td class="product-quantity"><input type="number" ng-model="cartA.quantity" name="quantity" /></td>
+                                <td class="product-quantity"><input type="number" ng-model="cartA.quantity" name="quantity" value="{{cartA.quantity}}" /></td>
                                 <td class="product-subtotal">{{cartA.quantity * cartA.fields['Unit Cost']  | currency : 'USD$' : 2}}</td>
                                 <td class="product-remove"><a ng-click="removeFromCart(cartA.id)">X</a></td>
                             </tr>
