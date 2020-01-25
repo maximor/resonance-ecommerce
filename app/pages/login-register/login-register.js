@@ -7,8 +7,33 @@ module.exports = function (app) {
         });
     });
 
-    let loginRegisterCtrl = function ($rootScope, $scope, $http, externals, $location) {
+    let loginRegisterCtrl = function ($rootScope, $scope, $http, externals, $location, Notification) {
         $rootScope.appName = "Login Register";
         $rootScope.path = $location.path();
+
+
+        $scope.user = {};
+        let collection = {records: []};
+
+        $scope.register = function () {
+
+            $scope.user.Password = CryptoJS.SHA512($scope.user.Password).toString();
+            collection.records = [{fields: $scope.user}];
+            $http.post(externals.urls.resonanceApi+'Users', collection)
+                .then(function (response) {
+                    $scope.clean();
+                    Notification.success({message: '<i class="fa fa-bell-o"></i> You has been registered successfully! '});
+                }, function (err) {
+                    console.log(err);
+                });
+        }
+
+        $scope.login = function () {
+
+        }
+
+        $scope.clean = function () {
+            $scope.user = {};
+        }
     }
 }

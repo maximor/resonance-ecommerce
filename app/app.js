@@ -24,6 +24,7 @@ app.config(function($httpProvider, $urlRouterProvider, $stateProvider, Notificat
 //place the key in every request header automatically
 app.run(function ($http, $rootScope, $http, externals) {
     $http.defaults.headers.common['Authorization'] = 'Bearer '+ externals.airTableKEY;
+    $http.defaults.headers.post['Content-Type'] = 'application/json';
 });
 
 //Main controller for the application
@@ -97,9 +98,15 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
 //uris for for the resonance application
 app.constant('externals', {
     'airTableKEY': 'keyOR1tUy1gM5pkdK',
+    'sparkPostKEY': '02a7736586c58daa816df2f3043211467c8019a1',
+    'mainSparkPostEmail':'20102172@maximorodriguez.me',
+    'mainSparkPostName': 'Maximo Rodriguez from Resonance',
     'urls': {
+        'sparkPostApi':'https://api.sparkpost.com/api/v1/transmissions',
+        'resonanceApi': 'https://api.airtable.com/v0/appzeUDpZOqRjLPaJ/',
         "findAllFurniture":"https://api.airtable.com/v0/appzeUDpZOqRjLPaJ/Furniture"
     },
 });
 
 require('./pages')(app);
+require('./services')(app);

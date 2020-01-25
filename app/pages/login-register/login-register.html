@@ -43,16 +43,18 @@
                     <!-- End Single Content -->
                     <!-- Start Single Content -->
                     <div id="register" role="tabpanel" class="single__tabs__panel tab-pane">
-                        <form class="login" method="post">
-                            <input type="text" placeholder="Name*">
-                            <input type="text" placeholder="LastName*">
-                            <input type="text" placeholder="User Name*">
-                            <input type="email" placeholder="Email*">
-                            <input type="password" placeholder="Password*">
+                        <form class="login" name="registerf">
+                            <input type="text" ng-model="user['First Name']" placeholder="Fist Name*" required>
+                            <input type="text" ng-model="user['Last Name']" placeholder="Last Name*" required>
+                            <input type="text" ng-model="user.username" placeholder="User Name*" required>
+                            <input type="email" ng-model="user.email"  placeholder="Email*" required>
+                            <input type="password" ng-model="user.Password" placeholder="Password*" required>
+
                         </form>
                         <div class="htc__login__btn">
-                            <a href="#">register</a>
+                            <button ng-disabled="!registerf.$valid" ng-click="register()"><a href="">Register</a></button>
                         </div>
+
 <!--                        <div class="htc__social__connect">-->
 <!--                            <h2>Or Login With</h2>-->
 <!--                            <ul class="htc__soaial__list">-->
