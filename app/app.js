@@ -29,6 +29,10 @@ app.run(function ($http, $rootScope, $http, externals) {
 
 //Main controller for the application
 app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location, $window) {
+    if( $window.localStorage.getItem('user') != null){
+        $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
+    }
+
     $rootScope.appName = "Resonance Ecommerce";
     $rootScope.cart = [];
     $rootScope.path = $location.path();
@@ -93,16 +97,21 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
         return total;
     }
 
+    $rootScope.logout = function () {
+        if($window.localStorage.getItem('cart') != null){
+            $window.localStorage.removeItem('user');
+            $rootScope.user = {};
+            $scope.$emit('mainController', $rootScope.user);
+            $window.location.href = '#!/home';
+        }
+    }
+
 });
 
 //uris for for the resonance application
 app.constant('externals', {
     'airTableKEY': 'keyOR1tUy1gM5pkdK',
-    'sparkPostKEY': '02a7736586c58daa816df2f3043211467c8019a1',
-    'mainSparkPostEmail':'20102172@maximorodriguez.me',
-    'mainSparkPostName': 'Maximo Rodriguez from Resonance',
     'urls': {
-        'sparkPostApi':'https://api.sparkpost.com/api/v1/transmissions',
         'resonanceApi': 'https://api.airtable.com/v0/appzeUDpZOqRjLPaJ/',
         "findAllFurniture":"https://api.airtable.com/v0/appzeUDpZOqRjLPaJ/Furniture"
     },

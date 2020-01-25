@@ -15,18 +15,15 @@
                 <div class="htc__login__register__wrap">
                     <!-- Start Single Content -->
                     <div id="login" role="tabpanel" class="single__tabs__panel tab-pane active">
-                        <form class="login" method="post">
-                            <input type="text" placeholder="User Name*">
-                            <input type="password" placeholder="Password*">
+                        <form class="login" name="loginf">
+                            <input type="email" ng-model="login.email" placeholder="User Name*" required>
+                            <input type="password" ng-model="login.password" placeholder="Password*" required>
+
+                            <div class="htc__login__btn mt--30">
+                                <button ng-disabled="!loginf.$valid" ng-click="logins()"><a href="">Login</a></button>
+                            </div>
                         </form>
-                        <div class="tabs__checkbox">
-                            <input type="checkbox">
-                            <span> Remember me</span>
-<!--                            <span class="forget"><a href="#">Forget Pasword?</a></span>-->
-                        </div>
-                        <div class="htc__login__btn mt--30">
-                            <a href="#">Login</a>
-                        </div>
+
 <!--                        <div class="htc__social__connect">-->
 <!--                            <h2>Or Login With</h2>-->
 <!--                            <ul class="htc__soaial__list">-->
