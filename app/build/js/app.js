@@ -29,10 +29,8 @@ app.run(function ($http, $rootScope, $http, externals) {
 });
 
 //Main controller for the application
-app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location, $window) {
-    if( $window.localStorage.getItem('user') != null){
-        $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
-    }
+app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location, $window, $user) {
+    if($user.isLogIn()){ $rootScope.user = $user.getCurrentUser();}
 
     $rootScope.appName = "Resonance Ecommerce";
     $rootScope.cart = [];
@@ -99,11 +97,10 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
     }
 
     $rootScope.logout = function () {
-        if($window.localStorage.getItem('cart') != null){
-            $window.localStorage.removeItem('user');
+        if($user.isLogIn()){
             $rootScope.user = {};
             $scope.$emit('mainController', $rootScope.user);
-            $window.location.href = '#!/home';
+            $user.logout();
         }
     }
 
@@ -203,11 +200,8 @@ module.exports = function (app) {
         });
     });
 
-    let loginRegisterCtrl = function ($rootScope, $scope, $http, externals, $location, Notification, $window) {
-        let user = $window.localStorage.getItem('user');
-        if(user != null){
-            $window.location.href = '#!/home';
-        }
+    let loginRegisterCtrl = function ($rootScope, $scope, $http, externals, $location, Notification, $window, $user) {
+        if($user.isLogIn()){$window.location.href = '#!/home';}
 
         $rootScope.appName = "Login Register";
         $rootScope.path = $location.path();
@@ -218,7 +212,6 @@ module.exports = function (app) {
         let collection = {records: []};
 
         $scope.register = function () {
-
             $scope.user.Password = CryptoJS.SHA512($scope.user.Password).toString();
             collection.records = [{fields: $scope.user}];
             $http.post(externals.urls.resonanceApi+'Users', collection)
@@ -231,35 +224,23 @@ module.exports = function (app) {
         }
 
         $scope.logins = function () {
-            $http.get(externals.urls.resonanceApi+"Users?filterByFormula=({email}='"+$scope.login.email+"')").then(function (successResponse) {
-                if(successResponse.data.records.length == 1){
-                    let inputPassword = CryptoJS.SHA512($scope.login.password).toString();
-
-                    if(successResponse.data.records[0].fields.Password === inputPassword){
-                        let user = {};
-                        user['id'] = successResponse.data.records[0].id;
-                        user['username'] = successResponse.data.records[0].fields.username;
-                        user['email'] = successResponse.data.records[0].fields.email;
-                        user['First Name'] = successResponse.data.records[0].fields['First Name'];
-                        user['Last Name'] = successResponse.data.records[0].fields['Last Name'];
-                        $window.localStorage.setItem('user', JSON.stringify(user));
-
-                        $rootScope.user = user;
-                        $scope.$emit('mainController', $rootScope.user);
-                        $window.location.href = '#!/home';
-                    }else{
-                        Notification.error({message: '<i class="fa fa-bell-o"></i> User or password incorrect! '});
-                    }
-
+            $user.login($scope.login.email, $scope.login.password).then(function (user) {
+                if(user){
+                    console.log(user);
+                    $user.addUserToLocalStorage(user);
+                    $rootScope.user = $user.getCurrentUser();
+                    $scope.$emit('mainController', $rootScope.user);
+                    $window.location.href = '#!/home';
+                }else{
+                    Notification.error({message: '<i class="fa fa-bell-o"></i> User or password incorrect! '});
                 }
-            }, function (errResponse) {
-                console.log(errResponse);
+            }, function (err) {
+                Notification.error({message: '<i class="fa fa-bell-o"></i> User or password incorrect! '});
             });
         }
 
         $scope.clean = function () {
             $scope.user = {};
-            $scope.login = {};
         }
     }
 }
@@ -380,45 +361,76 @@ module.exports = function (app) {
 }
 },{}],8:[function(require,module,exports){
 module.exports = function (app) {
-    //send emails using spark post service api
-    app.service('$sparkPost', function ($http, externals) {
-        this.send = function (to, subject, html, text) {
-            let content = {
-                campaign_id: "Resonance Email System",
-                recipients: [
-                    {
-                        address: to
-                    }
-                ],
-                content: {
-                    from: {
-                        email: externals.mainSparkPostEmail,
-                        name: externals.mainSparkPostName
-                    },
+    app.service('$user', function ($window, $http, externals) {
 
-                    subject: subject,
-                    html: html,
-                    text: text
-                }
-            }
-            let options = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': externals.sparkPostKEY
-                }
-            }
-
-            $http.post(externals.urls.sparkPostApi+'?num_rcpt_errors=3', content, options).then(function (successResponse) {
-                return successResponse;
-            }, function (errResponse) {
-                return errResponse;
-            });
+        this.isLogIn = function () {
+            return $window.localStorage.getItem('user') != null;
         }
+
+        this.getCurrentUser = function () {
+            if(this.isLogIn()){
+                return JSON.parse($window.localStorage.getItem('user'));
+            } else {
+                return null;
+            }
+        }
+
+        this.addUserToLocalStorage = function (user) {
+            if(typeof user === 'object'){
+                if(!user.hasOwnProperty('id')){
+                    throw 'object missing id property';
+                }else if(!user.fields.hasOwnProperty('username')){
+                    throw 'object missing username property';
+                }else if(!user.fields.hasOwnProperty('email')){
+                    throw 'object missing email property';
+                }else if(!user.fields.hasOwnProperty('First Name')){
+                    throw 'object missing Fist Name property';
+                }else if(!user.fields.hasOwnProperty('Last Name')){
+                    throw 'object missing Last Name property';
+                }else {
+                    let userAux = {};
+                    userAux['id'] = user.id;
+                    userAux['username'] = user.fields.username;
+                    userAux['email'] = user.fields.email;
+                    userAux['First Name'] = user.fields['First Name'];
+                    userAux['Last Name'] = user.fields['Last Name'];
+                    $window.localStorage.setItem('user', JSON.stringify(userAux));
+                }
+            }
+        }
+
+        this.login = function (email, password) {
+            return new Promise(function (resolve, reject) {
+                $http.get(externals.urls.resonanceApi+"Users?filterByFormula=({email}='"+email+"')").then(function (successResponse) {
+                    if(successResponse.data.records.length == 1){
+                        let passwordd = CryptoJS.SHA512(password).toString();
+                        if(successResponse.data.records[0].fields.Password === passwordd){
+                            resolve(successResponse.data.records[0]);
+                        }else {
+                            reject(false);
+                        }
+                    }else{
+                        reject(false);
+                    }
+                }, function (errResponse) {
+                    console.log(errResponse);
+                    reject(false);
+                });
+            });
+
+        }
+
+        this.logout = function () {
+            if(this.isLogIn()){
+                $window.localStorage.removeItem('user');
+                $window.location.href = '#!/home';
+            }
+        }
+
     });
 }
 },{}],9:[function(require,module,exports){
 module.exports = function (app) {
-    require('./PostSpark/postSpark') (app);
+    require('./User/userService') (app);
 }
-},{"./PostSpark/postSpark":8}]},{},[1])
+},{"./User/userService":8}]},{},[1])

@@ -20,6 +20,7 @@ module.exports = function(config) {
         '../vendor/angular-resource/angular-resource.js',
         '../vendor/angular-ui-notification/dist/angular-ui-notification.js',
         '../vendor/angular-ui-router/release/angular-ui-router.js',
+        '../vendor/ngstorage/ngStorage.js',
         '../app/build/js/app.js',
         'unit/*.js'
     ],

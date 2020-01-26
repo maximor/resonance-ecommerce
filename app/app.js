@@ -28,10 +28,8 @@ app.run(function ($http, $rootScope, $http, externals) {
 });
 
 //Main controller for the application
-app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location, $window) {
-    if( $window.localStorage.getItem('user') != null){
-        $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
-    }
+app.controller("mainController", function($scope, $rootScope, $http, externals, Notification, $location, $window, $user) {
+    if($user.isLogIn()){ $rootScope.user = $user.getCurrentUser();}
 
     $rootScope.appName = "Resonance Ecommerce";
     $rootScope.cart = [];
@@ -98,11 +96,10 @@ app.controller("mainController", function($scope, $rootScope, $http, externals, 
     }
 
     $rootScope.logout = function () {
-        if($window.localStorage.getItem('cart') != null){
-            $window.localStorage.removeItem('user');
+        if($user.isLogIn()){
             $rootScope.user = {};
             $scope.$emit('mainController', $rootScope.user);
-            $window.location.href = '#!/home';
+            $user.logout();
         }
     }
 
