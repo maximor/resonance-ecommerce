@@ -66,12 +66,17 @@ describe('main controller test', function () {
     }));
 
     it('testing global variables', function () {
+        expect($rootScope.user).toBeDefined();
+        expect($rootScope.user).not.toBeNull();
+
         expect($rootScope.appName).toBeDefined();
         expect($rootScope.cart).toBeDefined();
         expect($rootScope.path).toBeDefined();
 
         expect($rootScope.appName).toBe('Resonance Ecommerce');
         expect($rootScope.cart.length).toBe(0);
+
+
     });
 
     it('testing addToCart global function', function () {
