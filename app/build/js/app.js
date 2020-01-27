@@ -118,7 +118,7 @@ app.constant('externals', {
 require('./pages')(app);
 require('./services')(app);
 
-},{"./pages":4,"./services":9}],2:[function(require,module,exports){
+},{"./pages":4,"./services":10}],2:[function(require,module,exports){
 module.exports = function (app) {
     app.config(function ($stateProvider) {
         $stateProvider.state('cart',{
@@ -189,8 +189,9 @@ module.exports = function (app) {
     require('./login-register/login-register') (app);
     require('./cart/cart') (app);
     require('./shop/shop') (app);
+    require('./my-orders/my-orders') (app);
 }
-},{"./cart/cart":2,"./home/home":3,"./login-register/login-register":5,"./product/product":6,"./shop/shop":7}],5:[function(require,module,exports){
+},{"./cart/cart":2,"./home/home":3,"./login-register/login-register":5,"./my-orders/my-orders":6,"./product/product":7,"./shop/shop":8}],5:[function(require,module,exports){
 module.exports = function (app) {
     app.config(function ($stateProvider) {
         $stateProvider.state('login-register',{
@@ -262,6 +263,30 @@ module.exports = function (app) {
 },{}],6:[function(require,module,exports){
 module.exports = function (app) {
     app.config(function ($stateProvider) {
+        $stateProvider.state('myOrders', {
+            url:'/my-orders',
+            templateUrl: 'app/pages/my-orders/my-orders.html',
+            controller: 'myOrdersCtrl'
+        });
+    });
+
+
+    app.controller('myOrdersCtrl', function ($rootScope, $scope, $http, externals, $location, $user, $window) {
+        if(!$user.isLogIn()){
+            $window.location.href = '#!/home';
+        }else{
+            $rootScope.user = $user.getCurrentUser();
+        }
+
+        $rootScope.appName = "Cart";
+        $rootScope.path = $location.path();
+
+
+    });
+}
+},{}],7:[function(require,module,exports){
+module.exports = function (app) {
+    app.config(function ($stateProvider) {
         $stateProvider.state('product', {
             url: '/product/:id',
             templateUrl: 'app/pages/product/product.html',
@@ -285,7 +310,7 @@ module.exports = function (app) {
         }
     }
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = function (app) {
     app.config(function ($stateProvider) {
         $stateProvider.state('shop',{
@@ -374,7 +399,7 @@ module.exports = function (app) {
         $scope.dinamicSearch();
     }
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function (app) {
     app.service('$user', function ($window, $http, externals) {
 
@@ -453,8 +478,8 @@ module.exports = function (app) {
         }
     });
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function (app) {
     require('./User/userService') (app);
 }
-},{"./User/userService":8}]},{},[1])
+},{"./User/userService":9}]},{},[1])
