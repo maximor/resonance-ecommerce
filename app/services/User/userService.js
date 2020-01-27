@@ -58,12 +58,21 @@ module.exports = function (app) {
 
         }
 
+        this.userExists = async function (email) {
+            return new Promise(function (resolve, reject) {
+                $http.get(externals.urls.resonanceApi+`Users/?filterByFormula=({email}='${email}')`).then(function (successResponse) {
+                    resolve((successResponse.data.records.length > 0 && successResponse.data.records[0].fields.email == email));
+                }, function (errResponse) {
+                    reject(false);
+                });
+            });
+        }
+
         this.logout = function () {
             if(this.isLogIn()){
                 $window.localStorage.removeItem('user');
                 $window.location.href = '#!/home';
             }
         }
-
     });
 }

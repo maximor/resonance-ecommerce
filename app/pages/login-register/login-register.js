@@ -3,11 +3,11 @@ module.exports = function (app) {
         $stateProvider.state('login-register',{
             url: '/login-register',
             templateUrl: 'app/pages/login-register/login-register.html',
-            controller: loginRegisterCtrl
+            controller: 'loginRegisterCtrl'
         });
     });
 
-    let loginRegisterCtrl = function ($rootScope, $scope, $http, externals, $location, Notification, $window, $user) {
+    app.controller('loginRegisterCtrl', function ($rootScope, $scope, $http, externals, $location, Notification, $window, $user) {
         if($user.isLogIn()){$window.location.href = '#!/home';}
 
         $rootScope.appName = "Login Register";
@@ -19,15 +19,29 @@ module.exports = function (app) {
         let collection = {records: []};
 
         $scope.register = function () {
-            $scope.user.Password = CryptoJS.SHA512($scope.user.Password).toString();
-            collection.records = [{fields: $scope.user}];
-            $http.post(externals.urls.resonanceApi+'Users', collection)
-                .then(function (response) {
-                    $scope.clean();
-                    Notification.success({message: '<i class="fa fa-bell-o"></i> You has been registered successfully! '});
-                }, function (err) {
-                    console.log(err);
-                });
+            $user.userExists($scope.user.email).then(function (successResponse) {
+                if(!successResponse){
+                    $scope.user.Password = CryptoJS.SHA512($scope.user.Password).toString();
+                        collection.records = [{fields: $scope.user}];
+                        $http.post(externals.urls.resonanceApi+'Users', collection)
+                            .then(function (response) {
+                                // create the client profile
+                                let client = {records: [{fields:{Name:`${$scope.user['First Name']} ${$scope.user['Last Name']}`, Users:response.data.records[0].id}}]}
+                                $http.post(externals.urls.resonanceApi+'Clients', client).then(function (successResponse) {
+                                    Notification.success({message: '<i class="fa fa-bell-o"></i> You has been registered successfully! '});
+                                    $scope.clean();
+                                }, function (errResponse) {
+                                    console.log(errResponse);
+                                });
+                            }, function (err) {
+                                console.log(err);
+                            });
+                }else{
+                    Notification.error({message: `<i class="fa fa-bell-o"></i> Error, the email ${$scope.user.email} already exist, try with a new one!`});
+                }
+            }, function (errResponse) {
+                Notification.error({message: `<i class="fa fa-bell-o"></i> Error, the email ${$scope.user.email} already exist, try with a new one!`});
+            });
         }
 
         $scope.logins = function () {
@@ -49,5 +63,6 @@ module.exports = function (app) {
         $scope.clean = function () {
             $scope.user = {};
         }
-    }
+    })
+
 }
