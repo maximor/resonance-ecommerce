@@ -13,7 +13,6 @@ module.exports = function (app) {
         $scope.categories = [];
         $scope.furnitures = [];
 
-
         $scope.loadFurniture = function () {
             $http.get(externals.urls.findAllFurniture+"?sort%5B0%5D%5Bfield%5D=Type").then(function (request) {
                 $scope.furnitures = request.data.records;
@@ -43,10 +42,12 @@ module.exports = function (app) {
                                         Client: [
                                             `${successResponse.data.records[0].id}`
                                         ],
+                                        clientId: successResponse.data.records[0].id
                                     }
                                 }
                             ]
                         };
+
                         //create the order
                         $http.post(externals.urls.resonanceApi+'Client%20Orders', order).then(function (ordersResponse) {
                             //line items
@@ -78,8 +79,6 @@ module.exports = function (app) {
             }else{
                 Notification.error({message: '<i class="fa fa-bell-o"></i> Error, you have to login the system to make your order! '});
             }
-
-
         }
 
         // load data
