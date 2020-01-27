@@ -70,14 +70,14 @@
                             <form id='myform' method='POST' action='#'>
                                 <div class="product-quantity">
                                     <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" ng-model="furniture.quantity" type="text" ame="quantity">
+                                        <input class="cart-plus-minus-box" ng-disabled="furniture.fields['Units In Store'] <= 0" ng-model="furniture.quantity" type="text" ame="quantity">
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <ul class="pro__dtl__btn">
-                        <li class="buy__now__btn"><a ng-click="addToCart(furniture, furniture.quantity)"><span class="ti-shopping-cart"></span> Add to Cart</a></li>
+                        <li class="buy__now__btn"><button ng-click="addToCart(furniture, furniture.quantity)" ng-disabled="furniture.fields['Units In Store'] <= 0"><a><span ng-hide="furniture.fields['Units In Store'] <= 0" class="ti-shopping-cart"></span>{{furniture.fields['Units In Store'] <= 0? 'Out of Stock': 'Add to Cart'}}</a></button></li>
                     </ul>
                 </div>
             </div>
