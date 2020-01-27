@@ -79,7 +79,7 @@
                                         <p>{{furniture.fields.Description | limitTo : 256}}...</p>
                                         <span class="product__price">{{furniture.fields['Unit Cost'] | currency : 'USD$' : 2}}</span>
                                         <div class="shop__btn">
-                                            <a class="htc__btn" ng-click="addToCart(furniture)" href=""><span class="ti-shopping-cart"></span>Add to Cart</a>
+                                            <button ng-disabled="furniture.fields['Units In Store'] <= 0" ng-click="addToCart(furniture)"><a class="htc__btn"  href=""><span ng-hide="furniture.fields['Units In Store'] <= 0"class="ti-shopping-cart"></span>{{furniture.fields['Units In Store'] <= 0? 'Out of Stock': 'Add to Cart'}}</a></button>
                                         </div>
                                     </div>
                                 </div>
