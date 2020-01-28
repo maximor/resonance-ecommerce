@@ -42,7 +42,8 @@ module.exports = function (app) {
                                         Client: [
                                             `${successResponse.data.records[0].id}`
                                         ],
-                                        clientId: successResponse.data.records[0].id
+                                        clientId: successResponse.data.records[0].id,
+                                        userEmail: $rootScope.user.email
                                     }
                                 }
                             ]
@@ -55,7 +56,7 @@ module.exports = function (app) {
                             for(let i = 0; i < $rootScope.cart.length; i++){
                                 orderLineItem.records.push({
                                     fields:{
-                                        Quantity:$rootScope.cart[i].quantity,
+                                        Quantity:parseInt($rootScope.cart[i].quantity),
                                         "Furniture Item":[`${$rootScope.cart[i].id}`],
                                         "Belongs to Order":[`${ordersResponse.data.records[0].id}`]
                                     }
