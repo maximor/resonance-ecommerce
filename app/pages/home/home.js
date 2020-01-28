@@ -3,11 +3,11 @@ module.exports = function (app) {
         $stateProvider.state('home', {
             url: '/home',
             templateUrl: 'app/pages/home/home.html',
-            controller: homeCtrl
+            controller: 'homeCtrl'
         });
     });
 
-    let homeCtrl = function ($rootScope, $scope, $http, externals, $location) {
+    app.controller('homeCtrl', function ($rootScope, $scope, $http, externals, $location) {
         $rootScope.appName = "Resonance Ecommerce";
         $rootScope.path = $location.path();
         $scope.furnitures = [];
@@ -16,10 +16,9 @@ module.exports = function (app) {
             $http.get(externals.urls.findAllFurniture+'?maxRecords=9').then(function (request) {
                 $scope.furnitures = request.data.records;
             });
-
         }
 
         // load data
         $scope.loadFurniture();
-    };
+    });
 }
