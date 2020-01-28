@@ -37,28 +37,20 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="product-remove"><a href="#"></a></td>
-                                    <td class="product-thumbnail"></td>
-                                    <td class="product-name"></td>
-                                    <td class="product-price"></td>
-                                    <td class="product-stock-status"></td>
+                                <tr ng-repeat="order in orders">
+                                    <td>{{order.id}}</td>
+                                    <td class="product-thumbnail">{{order.createdTime | date}}</td>
+                                    <td class="product-name">{{order.fields.Name}}</td>
+                                    <td class="product-stock-status">{{order.fields.Status}}</td>
+                                    <td class="product-price">{{order.fields['Order Total Cost'] | currency : "USD$" : 2}}</td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                 <tr>
                                     <td colspan="6">
                                         <div class="wishlist-share">
-                                            <h4 class="wishlist-share-title">Share on:</h4>
-                                            <div class="social-icon">
-                                                <ul>
-                                                    <li><a href="#"><i class="zmdi zmdi-rss"></i></a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-vimeo"></i></a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-tumblr"></i></a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-linkedin"></i></a></li>
-                                                </ul>
-                                            </div>
+                                            <h2 class="wishlist-share-title">Orders Total: <strong>{{totalOrders | currency : 'USD$' : 2}}</strong></h2>
+
                                         </div>
                                     </td>
                                 </tr>
