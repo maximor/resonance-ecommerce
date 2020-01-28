@@ -378,15 +378,15 @@ module.exports = function (app) {
         $stateProvider.state('shop',{
             url: '/shop',
             templateUrl: 'app/pages/shop/shop.html',
-            controller: collectionCtrl
+            controller: 'shopCtrl'
         }).state('shopCategores', {
             url: '/shop/:type/:name',
             templateUrl: 'app/pages/shop/shop.html',
-            controller: collectionCtrl
+            controller: 'shopCtrl'
         });
     });
 
-    let collectionCtrl = function ($rootScope, $scope, $http, externals, $stateParams, $location) {
+    app.controller('shopCtrl', function ($rootScope, $scope, $http, externals, $stateParams, $location) {
         $rootScope.appName = "Shop";
         $rootScope.path = $location.path();
 
@@ -413,11 +413,9 @@ module.exports = function (app) {
                         }
                     }
                 }
-                console.log($scope.categories);
             });
         }
-
-
+        
         $scope.dinamicSearch = function () {
             let query = '';
             //build the sortBy query filter with a custom url
@@ -441,15 +439,9 @@ module.exports = function (app) {
                 if($stateParams.type == 'category'){
                     $http.get(externals.urls.findAllFurniture+"?filterByFormula=({Type}='"+$stateParams.name+"')"+((query.length > 0) ? '&' : '')+query).then(function (request) {
                         $scope.furnitures = request.data.records;
-                        console.log($scope.furnitures);
                     });
-
-                }else{
-                    if($stateParams.type == 'name'){
-                    }
                 }
             }else{
-                console.log(externals.urls.findAllFurniture+query);
                 $http.get(externals.urls.findAllFurniture+"?"+query).then(function (request) {
                     $scope.furnitures = request.data.records;
                 });
@@ -459,7 +451,7 @@ module.exports = function (app) {
         // load data
         $scope.loadFurniture();
         $scope.dinamicSearch();
-    }
+    });
 }
 },{}],9:[function(require,module,exports){
 module.exports = function (app) {
