@@ -13,7 +13,6 @@ module.exports = function (app) {
         $rootScope.appName = "Login Register";
         $rootScope.path = $location.path();
 
-
         $scope.user = {};
         $scope.login = {};
         let collection = {records: []};
@@ -47,7 +46,6 @@ module.exports = function (app) {
         $scope.logins = function () {
             $user.login($scope.login.email, $scope.login.password).then(function (user) {
                 if(user){
-                    console.log(user);
                     $user.addUserToLocalStorage(user);
                     $rootScope.user = $user.getCurrentUser();
                     $scope.$emit('mainController', $rootScope.user);
