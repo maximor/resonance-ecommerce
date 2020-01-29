@@ -66,25 +66,15 @@ describe('main controller test', function () {
     }));
 
     it('testing global variables', function () {
-        expect($rootScope.user).toBeDefined();
-        expect($rootScope.user).not.toBeNull();
-
-        expect($rootScope.appName).toBeDefined();
-        expect($rootScope.cart).toBeDefined();
-        expect($rootScope.path).toBeDefined();
-
         expect($rootScope.appName).toBe('Resonance Ecommerce');
         expect($rootScope.cart.length).toBe(0);
-
-
     });
 
-    it('testing addToCart global function', function () {
+    it('testing addToCart and global functions', function () {
         $rootScope.addToCart(furniture);
         //testing after adding the furniture in the cart
         expect($rootScope.numberOfItems()).toBe(1);
         expect($rootScope.cartTotal()).toBe(382.25);
-
         $rootScope.removeFromCart(furniture.id);
         //testing after removing the furniture from the cart
         expect($rootScope.numberOfItems()).toBe(0);
