@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col-md-6 ml-auto mr-auto">
                 <ul class="login__register__menu nav justify-contend-center" role="tablist">
-                    <li role="presentation" class="login active"><a class="active" ui-sref="#" href="#login" role="tab" data-toggle="tab">Login</a></li>
-                    <li role="presentation" class="register"><a ui-sref="#" href="#register" role="tab" data-toggle="tab">Register</a></li>
+                    <li role="presentation" class="login active"><a class="active" ui-sref="#" id="loginMenu" href="#login" role="tab" id="" data-toggle="tab">Login</a></li>
+                    <li role="presentation" class="register"><a ui-sref="#" href="#register" id="registerMenu" role="tab" data-toggle="tab">Register</a></li>
                 </ul>
             </div>
         </div>
@@ -20,7 +20,7 @@
                             <input type="password" ng-model="login.password" placeholder="Password*" required>
 
                             <div class="htc__login__btn mt--30">
-                                <button ng-disabled="!loginf.$valid" ng-click="logins()"><a href="">Login</a></button>
+                                <button ng-disabled="!loginf.$valid" ng-click="logins()" id="loginButton"><a href="">Login</a></button>
                             </div>
                         </form>
 
@@ -49,7 +49,7 @@
 
                         </form>
                         <div class="htc__login__btn">
-                            <button ng-disabled="!registerf.$valid" ng-click="register()"><a href="">Register</a></button>
+                            <button ng-disabled="!registerf.$valid" ng-click="register()" id="registerButton"><a href="">Register</a></button>
                         </div>
 
 <!--                        <div class="htc__social__connect">-->

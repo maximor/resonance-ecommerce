@@ -75,7 +75,7 @@
                     <div class="col-md-2 col-lg-2 col-6">
                         <ul class="menu-extra">
                             <li ui-sref-active="active"><a href="#!/login-register"><span class="ti-user"></span></a></li>
-                            <li class="cart__menu"><span class="ti-shopping-cart">({{numberOfItems()}})</span></li>
+                            <li class="cart__menu"><span class="ti-shopping-cart" id="cartNumber">({{numberOfItems()}})</span></li>
                             <li class="toggle__menu d-none d-md-block"><span class="ti-menu"></span></li>
                         </ul>
                     </div>
@@ -123,10 +123,10 @@
                         </ul>
                     </div>
                     <div class="offset__single">
-                        <h4 class="offset__title">{{user.username}}</h4>
+                        <h4 class="offset__title" id="profileUsername">{{user.username}}</h4>
                         <ul>
-                            <li><a href="#">{{user['First Name']}} {{user['Last Name']}}</a></li>
-                            <li><a href="#">{{user.email}}</a></li>
+                            <li><a href="#" id="profileName">{{user['First Name']}} {{user['Last Name']}}</a></li>
+                            <li><a href="#" id="profileEmail">{{user.email}}</a></li>
                         </ul>
                     </div>
                 </div>

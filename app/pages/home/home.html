@@ -21,7 +21,7 @@
                                     <img ng-repeat="picture in furniture.fields.Picture | limitTo: 1" src="{{picture.url}}" alt="{{furniture.fields.Name}}">
                                 </a>
                             </div>
-                            <div class="product__hover__info">
+                            <div class="product__hover__info" ng-hide="furniture.fields['Units In Store'] <= 0">
                                 <ul class="product__action">
 <!--                                    <li><a data-toggle="modal" data-target="#productModal" title="Quick View" class="quick-view modal-view detail-link" href="#"><span class="ti-plus"></span></a></li>-->
                                     <li><a ng-click="addToCart(furniture)" title="Add TO Cart" href=""><span class="ti-shopping-cart"></span></a></li>
