@@ -2,12 +2,11 @@ describe('product controller testing', function () {
     let $controller;
     let $scope = {};
     let $rootScope = {};
-    let $stateParams;
 
     beforeEach(module('resonanceClientApp'));
     beforeEach(inject(function (_$controller_) {
         $controller = _$controller_;
-        $controller('productCtrl', {$scope:$scope, $rootScope:$rootScope, $stateParams:$stateParams});
+        $controller('productCtrl', {$scope:$scope, $rootScope:$rootScope});
     }));
 
     it('testing variable definitions', function () {
