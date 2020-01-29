@@ -415,7 +415,7 @@ module.exports = function (app) {
                 }
             });
         }
-        
+
         $scope.dinamicSearch = function () {
             let query = '';
             //build the sortBy query filter with a custom url
